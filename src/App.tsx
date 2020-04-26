@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import "@lnwu/normalize.css";
 import "./App.css";
-import { produce } from "immer";
+import Header from "./components/Header";
+import InputBox from "./components/InputBox";
 import { useConfig } from "./hooks/useConfig";
+import axios from "axios";
 
 type Todo = {
   id: string;
@@ -10,40 +13,34 @@ type Todo = {
 
 const App = () => {
   const [todoList, setTodoList] = useState<Todo[]>([]);
-  const [newTodo, setNewTodo] = useState("");
   const config = useConfig();
 
-  const handleAddTodo = () => {
-    const newTodoList = produce(todoList, (draft) => {
-      draft.push({
-        id: Math.random().toString(),
-        title: newTodo,
-      });
-    });
-
-    setTodoList(newTodoList);
+  const handleAddTodo = (title: string) => {
+    axios.post(config.api + "/todos", { title });
   };
+
+  const fetchTodos = useCallback(async () => {
+    const res = await axios.get<Todo[]>(config.api + "/todos");
+    setTodoList(res.data);
+  }, [config.api]);
+
+  useEffect(() => {
+    fetchTodos();
+  });
 
   return (
     <div className="App">
-      <header className="App-header">
-        <p>当前环境: {config.env}</p>
-        <div>
-          <input
-            type="text"
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-          />
-          <button onClick={handleAddTodo}>添加</button>
-        </div>
-        {todoList.length > 0 && (
-          <ul>
-            {todoList.map((todo) => {
-              return <li key={todo.id}>{todo.title}</li>;
-            })}
-          </ul>
-        )}
-      </header>
+      <Header />
+      <InputBox onAddTodo={handleAddTodo} />
+      {todoList.length > 0 ? (
+        <ul>
+          {todoList.map((todo) => {
+            return <li key={todo.id}>{todo.title}</li>;
+          })}
+        </ul>
+      ) : (
+        "loading..."
+      )}
     </div>
   );
 };
