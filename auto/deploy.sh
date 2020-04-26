@@ -13,4 +13,4 @@ docker run -it --rm \
 docker run -it --rm \
   -v $(pwd):/aws \
   -v ~/.aws:/root/.aws \
-  amazon/aws-cli s3 ls
+  amazon/aws-cli s3 sync ./build s3://todo-web-${STAGE} --acl public-read
