@@ -9,6 +9,7 @@ const InputBox: FC<InputBoxProps> = ({ onAddTodo }) => {
 
   return (
     <div className="input-box">
+      <h3>请输入你今天要做的事情：</h3>
       <input
         type="text"
         value={title}
