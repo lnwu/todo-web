@@ -25,11 +25,6 @@ const App = () => {
     fetchTodos();
   };
 
-  const removeTodo = async (id: string) => {
-    await axios.delete(config.api + `/todo/${id}`);
-    fetchTodos();
-  };
-
   useEffect(() => {
     fetchTodos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,13 +38,8 @@ const App = () => {
         <ul>
           {todoList.map((todo) => {
             return (
-              <li
-                className="todo-item"
-                key={todo.id}
-                onClick={() => removeTodo(todo.id)}
-              >
-                <span>{todo.title} </span>
-                <span>x</span>
+              <li className="todo-item" key={todo.id}>
+                {todo.title}
               </li>
             );
           })}
