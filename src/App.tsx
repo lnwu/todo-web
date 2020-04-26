@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "@lnwu/normalize.css";
 import "./App.css";
 import Header from "./components/Header";
@@ -15,18 +15,25 @@ const App = () => {
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const config = useConfig();
 
-  const handleAddTodo = (title: string) => {
-    axios.post(config.api + "/todos", { title });
+  const fetchTodos = async () => {
+    const res = await axios.get<Todo[]>(config.api + "/todos");
+    setTodoList(res.data || []);
   };
 
-  const fetchTodos = useCallback(async () => {
-    const res = await axios.get<Todo[]>(config.api + "/todos");
-    setTodoList(res.data);
-  }, [config.api]);
+  const handleAddTodo = async (title: string) => {
+    await axios.post(config.api + "/todos", { title });
+    fetchTodos();
+  };
+
+  const removeTodo = async (id: string) => {
+    await axios.delete(config.api + `/todo/${id}`);
+    fetchTodos();
+  };
 
   useEffect(() => {
     fetchTodos();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="App">
@@ -35,7 +42,16 @@ const App = () => {
       {todoList.length > 0 ? (
         <ul>
           {todoList.map((todo) => {
-            return <li key={todo.id}>{todo.title}</li>;
+            return (
+              <li
+                className="todo-item"
+                key={todo.id}
+                onClick={() => removeTodo(todo.id)}
+              >
+                <span>{todo.title} </span>
+                <span>x</span>
+              </li>
+            );
           })}
         </ul>
       ) : (

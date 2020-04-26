@@ -18,3 +18,13 @@ body {
 .input-box input {
   margin-right: 1em;
 }
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.todo-item:hover {
+  cursor: pointer;
+}
