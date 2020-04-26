@@ -1,5 +1,7 @@
 # todo-web
-A todo list web part.
+A todo list web part.  
+
+[![Build status](https://badge.buildkite.com/fbdbb20fa05072c16d6c69d385fc75e35bf0dab24e0838a1bc.svg)](https://buildkite.com/todo/qian-duan-bu-shu-liu-cheng)
 
 ### 环境
 
