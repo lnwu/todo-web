@@ -4,7 +4,7 @@
 
 
 docker run -it --rm \
-  -v "$PWD":/usr/src/app \
+  -v $(pwd):/usr/src/app \
   -w /usr/src/app \
   -e REACT_APP_STAGE=${STAGE} \
   node bash -ci "yarn install && yarn build"
