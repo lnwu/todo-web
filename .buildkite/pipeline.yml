@@ -1,0 +1,24 @@
+steps:
+  - label: ":jest: 测试"
+    command: ./auto/test.sh
+
+  - wait
+
+  - label: ":docker: 部署到开发测试环境"
+    command: ./auto/deploy.sh
+    env:
+      STAGE: development
+
+  - block: ":rocket: 点击部署到公共测试环境"
+
+  - label: ":docker: 部署到公共测试环境"
+    command: ./auto/deploy.sh
+    env:
+      STAGE: staging
+
+  - block: ":rocket: 点击部署到线上环境"
+
+  - label: ":docker: 部署到线上环境"
+    command: "echo Test"
+    env:
+      STAGE: production

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { produce } from "immer";
 
@@ -26,7 +25,6 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>当前环境: {process.env.REACT_APP_STAGE}</p>
         <div>
           <input
