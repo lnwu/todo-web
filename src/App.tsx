@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import { produce } from "immer";
+import { useConfig } from "./hooks/useConfig";
 
 type Todo = {
   id: string;
@@ -10,6 +11,7 @@ type Todo = {
 const App = () => {
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
+  const config = useConfig();
 
   const handleAddTodo = () => {
     const newTodoList = produce(todoList, (draft) => {
@@ -25,7 +27,7 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <p>当前环境: {process.env.REACT_APP_STAGE}</p>
+        <p>当前环境: {config.env}</p>
         <div>
           <input
             type="text"

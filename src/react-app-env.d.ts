@@ -2,6 +2,6 @@
 
 declare namespace NodeJS {
   export interface ProcessEnv {
-    REACT_APP_STAGE: "LOCAL" | "DEV" | "STG" | "PROD";
+    REACT_APP_STAGE: "local" | "development" | "staging" | "production";
   }
 }
